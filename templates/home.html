@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <style>
+        /* Add custom styles here */
+        body {
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+        }
+        .jumbotron {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        .feature {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>Welcome to Our Website</h1>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="jumbotron">
+            <h2>HII {{.Username}}</h2>
+            <p>Welcome to my website which i build using bootstrap,html and css.This Page acts as the home page.</p>
+        </div>
+     <form action="/logout" method="GET">
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary rounded submit p-3 px-5" id="button">Logout</button>
+        </div>
+     </form>
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery -->
+    <script>
+        const button=document.querySelector("#button");
+        button.addEventListener('click',clearhistory);
+        function clearhistory(){
+		history.pushState(null, null, location.href);
+		window.onpopstate = function () {
+			history.go(1); 
+		};
+    }
+	</script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

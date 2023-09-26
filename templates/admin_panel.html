@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - User Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0; /* Updated background color */
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #e0e0e0;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #e5e5e5;
+        }
+        .user-actions button {
+            margin-right: 5px;
+            padding: 8px 15px; /* Adjusted button padding */
+            font-size: 14px; /* Adjusted button font size */
+        }
+        .user-actions form {
+            display: inline;
+        }
+        .add-user-form {
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+        .add-user-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .add-user-form input {
+            width: 100%;
+            padding: 10px; /* Adjusted input padding */
+            margin-bottom: 10px;
+        }
+        .add-user-form button {
+            padding: 12px 20px; /* Adjusted button padding */
+            font-size: 16px; /* Adjusted button font size */
+            background-color: #4285f4; /* Updated button background color */
+            color: #fff; /* Updated button text color */
+            border: none;
+            cursor: pointer;
+        }
+        .add-user-form button:hover {
+            background-color: #357ae8; /* Updated button hover background color */
+        }
+        button {
+            padding: 12px 20px; /* Adjusted button padding */
+            font-size: 16px; /* Adjusted button font size */
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Styles for the submit button */
+        button[type="submit"] {
+            background-color: #4285f4; /* Updated button background color */
+            color: #fff; /* Updated button text color */
+        }
+
+        /* Styles for the logout button */
+        button[type="button"] {
+            background-color: #4285f4; /* Match to submit button */
+            color: #fff; /* Match to submit button */
+        }
+
+        /* Hover effect for both buttons */
+        button:hover {
+            background-color: #357ae8; /* Updated button hover background color */
+        }
+        
+        a.home-link {
+            background-color: #4285f4; /* Updated link background color */
+            color: #fff; /* Updated link text color */
+            padding: 12px 20px; /* Adjusted link padding */
+            font-size: 16px; /* Adjusted link font size */
+            text-decoration: none; /* Remove underline */
+            margin-right: 10px; /* Adjusted margin for spacing */
+        }
+
+        /* Hover effect for the home link */
+        a.home-link:hover {
+            background-color: #357ae8; /* Updated link hover background color */
+        }
+
+        /* Added margin to the logout button */
+        button[type="submit"] {
+            margin-right: 10px; /* Adjusted margin for spacing */
+        }
+        .button-container {
+            display: flex;
+        }
+
+        /* Added margin to the logout button */
+        button[type="submit"] {
+            margin-right: 10px; /* Adjusted margin for spacing */
+        }
+        .parent{
+            display: flex;
+        }
+        .child1{
+            width: 45%;
+            padding: 5px;
+        }
+        .child2{
+            width: 45%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Admin Panel - {{.admin}}</h1>
+    <h2>User List</h2>
+    <div class="parent">
+        <div class="child1">
+        
+        
+        {{if .message}}
+            <h4>{{.message}}</h4>
+        {{end}}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .Users}}
+                    <tr>
+                        <td>{{.Username}}</td>
+                        <td>{{.Email}}</td>
+                        <td class="user-actions">
+                            <form action="/admin/delete-user/{{.Username}}" method="POST">
+                                <button type="submit">Delete</button>
+                            </form>
+                            <form action="/admin/edit-user/{{.Username}}" method="GET">
+                                <button type="submit">Edit</button>
+                            </form>
+                        </td>
+                    </tr>
+                {{end}}
+            </tbody>
+        </table>
+        </div>
+        <div class="child2">
+            <form class="search-form" action="/admin" method="POST">
+                <input type="text" id="search" name="search" placeholder="Search users">
+                <button type="submit">Search</button>
+            </form>
+            <table border="1">
+                <!-- <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead> -->
+                <tbody>
+                    {{range .searchusers}}
+                        <tr>
+                            <td>{{.Username}}</td>
+                            <td>{{.Email}}</td>
+                            <td class="user-actions">
+                                <form action="/admin/delete-user/{{.Username}}" method="POST">
+                                    <button type="submit">Delete</button>
+                                </form>
+                                <form action="/admin/edit-user/{{.Username}}" method="GET">
+                                    <button type="submit">Edit</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {{end}}
+                </tbody>
+                {{if.error}}
+                <h4>{{.error}}</h4>
+                {{end}}
+              </table>
+            </div>
+    </div>
+   
+    <div class="button-container">
+        <a href="/home" class="home-link">Home</a>
+        <a href="/admin/adduser" class="home-link">Add User</a>
+        <form action="/logout" method="GET">
+            <div class="form-group">
+                <button type="submit">Logout</button>
+            </div>
+        </form>
+
+        <a href="/admin/add-admin" class="home-link">Add Admin</a>
+    </div>
+    </div>
+    <script>
+        // JavaScript to prevent going back after logout
+        const button = document.querySelector("button[type='submit']");
+        button.addEventListener('click', clearHistory);
+
+        function clearHistory() {
+            history.pushState(null, null, location.href);
+            window.onpopstate = function () {
+                history.go(1);
+            };
+        }
+    </script>
+</body>
+</html>
